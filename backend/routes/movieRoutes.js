@@ -55,4 +55,31 @@ router.put("/status/inactivate/:id", (req, res) => {
   });
 });
 
+router.put("/updatemovie/:id", (req, res) => {
+  const { id } = req.params;
+
+  Movie.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({ error: "Movie not found" });
+      }
+      if (req.files && req.files.image) {
+        const imagePath = `./uploads/${data._id}.jpg`;
+        req.files.image.mv(imagePath, (err) => {
+          if (err) {
+            console.error("Error uploading image:", err);
+            return res.status(500).send({ error: "Image upload failed" });
+          }
+          return res.send({ message: "Updated successfully", success: true });
+        });
+      } else {
+        return res.send({ message: "Updated successfully", success: true });
+      }
+    })
+    .catch((error) => {
+      console.error("Error updating movie:", error);
+      return res.status(500).send({ error: "Update failed" });
+    });
+});
+
 module.exports = router;

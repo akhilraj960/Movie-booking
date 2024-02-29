@@ -29,36 +29,80 @@ const MovieForm = ({ data }) => {
       .catch((error) => {
         console.error("Error fetching languages:", error);
       });
-  }, []);
+
+    if (data) {
+      setName(data.name);
+      setGenre(data.genre);
+      setDate(data.date);
+      setDirector(data.director);
+      setLang(data.language);
+    }
+  }, [data]);
 
   const handleSubmit = () => {
-    if (!name || !genre || !date || !director || !language || !image) {
-      alert("All Fields are required");
-    }
+    if (data) {
+      if (!name || !genre || !date || !director || !language) {
+        return alert("All Fields are required");
+      }
 
-    axios
-      .post(
-        "http://localhost:5000/api/movie/newmovie",
-        {
-          name,
-          genre,
-          date,
-          director,
-          language,
-          image,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+      axios
+        .put(
+          "http://localhost:5000/api/movie/updatemovie/" + data._id,
+          {
+            name,
+            genre,
+            date,
+            director,
+            language,
+            image,
           },
-        }
-      )
-      .then((response) => {
-        console.log("Movie added successfully", response.data);
-      })
-      .catch((error) => {
-        console.error("Error adding movie:", error);
-      });
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          if (response) {
+            alert(response.data.message);
+            window.location.reload();
+          }
+        })
+        .catch((error) => {
+          console.error("Error adding movie:", error);
+        });
+    } else {
+      if (!name || !genre || !date || !director || !language || !image) {
+        return alert("All Fields are required");
+      }
+
+      axios
+        .post(
+          "http://localhost:5000/api/movie/newmovie",
+          {
+            name,
+            genre,
+            date,
+            director,
+            language,
+            image,
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          if (response) {
+            alert(response.data.message);
+            window.location.reload();
+          }
+        })
+        .catch((error) => {
+          console.error("Error adding movie:", error);
+        });
+    }
   };
 
   return (
@@ -73,7 +117,7 @@ const MovieForm = ({ data }) => {
           gap: "15px",
         }}
       >
-        <Typography variant="h5">Add New Movie</Typography>
+        <Typography variant="h5">{data ? "Edit" : "Add New"} Movie</Typography>
 
         <TextField
           label="Name"
@@ -119,6 +163,20 @@ const MovieForm = ({ data }) => {
           </Select>
         </FormControl>
 
+        {image && (
+          <img
+            src={URL.createObjectURL(image)}
+            alt="Movie Poster"
+            style={{ maxWidth: "100%", height: "auto" }}
+          />
+        )}
+        {!image && data && (
+          <img
+            src={`http://localhost:5000/uploads/${data._id}.jpg`}
+            alt="Movie Poster"
+            style={{ maxWidth: "100%", height: "auto" }}
+          />
+        )}
         <TextField
           fullWidth
           type="file"

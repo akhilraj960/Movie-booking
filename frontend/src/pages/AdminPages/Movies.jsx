@@ -33,6 +33,7 @@ const Movies = () => {
   const [open, setOpen] = useState(false);
   const [movies, setMovies] = useState([]);
   const [reload, setReload] = useState(false);
+  const [data, setData] = useState(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -67,7 +68,13 @@ const Movies = () => {
       <Toolbar />
       <Typography variant="h3">Movies</Typography>
       <Toolbar>
-        <Button variant="contained" onClick={handleOpen}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setData(null);
+            handleOpen();
+          }}
+        >
           New Movie {/* Corrected label */}
         </Button>
       </Toolbar>
@@ -105,7 +112,14 @@ const Movies = () => {
                   )}
                 </TableCell>
                 <TableCell style={{ display: "flex", gap: "10px" }}>
-                  <Button variant="contained" color="success">
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => {
+                      setData(value);
+                      handleOpen();
+                    }}
+                  >
                     Edit{" "}
                   </Button>
                   {value.status === "InActive" ? (
@@ -134,7 +148,7 @@ const Movies = () => {
       <Modal open={open} onClose={handleClose}>
         <Fade in={open}>
           <Box sx={style}>
-            <MovieForm />
+            <MovieForm data={data} />
           </Box>
         </Fade>
       </Modal>
