@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
   Fade,
+  Link,
   Modal,
   Table,
   TableBody,
@@ -14,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import MovieForm from "../../components/Admin/MovieForm";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -30,9 +32,16 @@ const style = {
 
 const Movies = () => {
   const [open, setOpen] = useState(false);
+  const [movies, setMovies] = useState([]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/movie/movies").then((data) => {
+      setMovies(data.data.data);
+    });
+  });
 
   return (
     <div>
@@ -56,27 +65,33 @@ const Movies = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell>1</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>1</TableCell>
-            </TableRow>
+            {movies?.map((value, index) => (
+              <TableRow key={index}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>
+                  <img
+                    src={`http://localhost:5000/uploads/${value._id}.jpg`}
+                    alt=""
+                    width={"50px"}
+                    height={"auto"}
+                  />
+                </TableCell>
+                <TableCell>{value.name}</TableCell>
+                <TableCell>{value.language}</TableCell>
+                <TableCell>{value.status}</TableCell>
+                <TableCell>
+                  <Button>Edit </Button>
+                  <Button>Activate </Button>
+                  <Button>InActivate </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
       <Modal open={open} onClose={handleClose}>
         <Fade in={open}>
           <Box sx={style}>
-            {/* <Typography id="transition-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography> */}
-
             <MovieForm />
           </Box>
         </Fade>

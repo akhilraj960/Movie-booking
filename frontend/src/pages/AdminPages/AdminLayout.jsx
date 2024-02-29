@@ -91,6 +91,19 @@ const AdminLayout = () => {
               justifyContent: "center",
             }}
           >
+            <Link to="/admin/users" style={{ width: "100%", color: "white" }}>
+              Users
+            </Link>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            style={{
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <Link to="/admin/movies" style={{ width: "100%", color: "white" }}>
               Movie
             </Link>

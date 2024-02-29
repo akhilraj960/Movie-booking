@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const URL = "mongodb://localhost:27017/amigoz";
+const URL =
+  "mongodb+srv://amigozz:HECet4DAvL0IJuTk@cluster0.ucoxody.mongodb.net/moviebooking?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose
   .connect(URL)

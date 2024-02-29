@@ -5,6 +5,7 @@ import AdminLayout from "./pages/AdminPages/AdminLayout";
 import Language from "./pages/AdminPages/Language";
 import DashBoard from "./pages/AdminPages/DashBoard";
 import AdminLogin from "./pages/AdminPages/AdminLogin";
+import Users from "./pages/AdminPages/Users";
 function App() {
   return (
     <div className="App">
@@ -14,10 +15,11 @@ function App() {
           <Route path="" element={<DashBoard />} />
           <Route path="movies" element={<Movies />} />
           <Route path="language" element={<Language />} />
+          <Route path="users" element={<Users />} />
         </Route>
       </Routes>
     </div>
-  ); 
+  );
 }
 
 export default App;

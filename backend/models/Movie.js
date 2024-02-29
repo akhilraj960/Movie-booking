@@ -6,8 +6,25 @@ const movieSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    director: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: String,
+      required: true,
+    },
+    genre: {
+      type: String,
+      required: true,
+    },
+
     language: {
       type: String,
+    },
+    status: {
+      type: String,
+      default: "InActive",
     },
   },
   { timestamps: true }

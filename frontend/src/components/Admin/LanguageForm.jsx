@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 import axios from "axios";
 
 const LanguageForm = ({ data }) => {
   const [language, setLanguage] = useState("");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (data) {
       setLanguage(data.language);
+      setStatus(data.status);
     }
   }, [data]);
 
@@ -17,6 +28,7 @@ const LanguageForm = ({ data }) => {
       axios
         .put("http://localhost:5000/api/language/update/" + data._id, {
           language,
+          status,
         })
         .then(({ data }) => {
           if (data) {
@@ -28,6 +40,7 @@ const LanguageForm = ({ data }) => {
       axios
         .post("http://localhost:5000/api/language/newlanguage", {
           language,
+          status,
         })
         .then(({ data }) => {
           if (data) {
@@ -61,6 +74,20 @@ const LanguageForm = ({ data }) => {
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
         />
+
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Status</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={status}
+            label="Status"
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <MenuItem value={"Active"}>Active</MenuItem>
+            <MenuItem value={"InActive"}>InActive</MenuItem>
+          </Select>
+        </FormControl>
 
         <Button
           variant="contained"
