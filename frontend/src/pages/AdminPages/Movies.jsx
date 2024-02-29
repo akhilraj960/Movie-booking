@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Fade,
-  Link,
   Modal,
   Table,
   TableBody,
@@ -33,6 +32,7 @@ const style = {
 const Movies = () => {
   const [open, setOpen] = useState(false);
   const [movies, setMovies] = useState([]);
+  const [reload, setReload] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -41,10 +41,29 @@ const Movies = () => {
     axios.get("http://localhost:5000/api/movie/movies").then((data) => {
       setMovies(data.data.data);
     });
-  });
+  }, [reload]);
+
+  const Activate = (id) => {
+    axios
+      .put("http://localhost:5000/api/movie/status/activate/" + id)
+      .then((data) => {
+        alert(data.data.message);
+        setReload((prevReload) => !prevReload);
+      });
+  };
+
+  const DeActivate = (id) => {
+    axios
+      .put("http://localhost:5000/api/movie//status/inactivate/" + id)
+      .then((data) => {
+        console.log(data);
+        alert(data.data.message);
+        setReload((prevReload) => !prevReload);
+      });
+  };
 
   return (
-    <div>
+    <div style={{ marginBottom: "4rem" }}>
       <Toolbar />
       <Typography variant="h3">Movies</Typography>
       <Toolbar>
@@ -78,11 +97,34 @@ const Movies = () => {
                 </TableCell>
                 <TableCell>{value.name}</TableCell>
                 <TableCell>{value.language}</TableCell>
-                <TableCell>{value.status}</TableCell>
                 <TableCell>
-                  <Button>Edit </Button>
-                  <Button>Activate </Button>
-                  <Button>InActivate </Button>
+                  {value.status === "InActive" ? (
+                    <p style={{ color: "red" }}>{value.status}</p>
+                  ) : (
+                    <p style={{ color: "green" }}>{value.status}</p>
+                  )}
+                </TableCell>
+                <TableCell style={{ display: "flex", gap: "10px" }}>
+                  <Button variant="contained" color="success">
+                    Edit{" "}
+                  </Button>
+                  {value.status === "InActive" ? (
+                    <Button
+                      variant="contained"
+                      color="success"
+                      onClick={() => Activate(value._id)}
+                    >
+                      Activate
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => DeActivate(value._id)}
+                    >
+                      InActivate
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

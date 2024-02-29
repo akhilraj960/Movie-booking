@@ -31,4 +31,28 @@ router.get("/movies", (req, res) => {
   });
 });
 
+router.put("/status/activate/:id", (req, res) => {
+  const { id } = req.params;
+
+  Movie.findByIdAndUpdate(
+    id,
+    { $set: { status: "Active" } },
+    { new: true }
+  ).then((data) => {
+    return res.send({ message: "Activated Successfully" });
+  });
+});
+
+router.put("/status/inactivate/:id", (req, res) => {
+  const { id } = req.params;
+
+  Movie.findByIdAndUpdate(
+    id,
+    { $set: { status: "InActive" } },
+    { new: true }
+  ).then((data) => {
+    return res.send({ message: "InActivated Successfully" });
+  });
+});
+
 module.exports = router;
