@@ -19,7 +19,7 @@ const AdminLogin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/auth/login", { email, password })
+      .post("http://localhost:5000/api/auth/adminlogin", { email, password })
       .then(({ data }) => {
         console.log(data);
         alert(data.message);
