@@ -14,8 +14,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Outlet } from "react-router-dom";
+import { Link } from "@mui/material";
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact", "Login"];
 
 const Layout = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -31,13 +31,34 @@ const Layout = () => {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemText color="black">
+              <Link href="/">Home</Link>
+            </ListItemText>
+          </ListItemButton>{" "}
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemText color="black">
+              <Link href="/about">About</Link>
+            </ListItemText>
+          </ListItemButton>{" "}
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemText color="black">
+              <Link href="/contact">Contact us</Link>
+            </ListItemText>
+          </ListItemButton>{" "}
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemText color="black">
+              <Link href="/login">Login</Link>
+            </ListItemText>
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -65,11 +86,26 @@ const Layout = () => {
               Amigozz
             </Typography>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              {navItems.map((item) => (
-                <Button key={item} sx={{ color: "#fff" }}>
-                  {item}
-                </Button>
-              ))}
+              <Button sx={{ color: "#fff" }}>
+                <Link href="/" sx={{ color: "#fff" }}>
+                  Home
+                </Link>
+              </Button>
+              <Button sx={{ color: "#fff" }}>
+                <Link href="/about" sx={{ color: "#fff" }}>
+                  About
+                </Link>
+              </Button>
+              <Button sx={{ color: "#fff" }}>
+                <Link href="/contact" sx={{ color: "#fff" }}>
+                  Contact us
+                </Link>
+              </Button>
+              <Button sx={{ color: "#fff" }}>
+                <Link href="/login" sx={{ color: "#fff" }}>
+                  Login
+                </Link>
+              </Button>
             </Box>
           </Toolbar>
         </AppBar>

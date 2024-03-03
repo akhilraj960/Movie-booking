@@ -82,4 +82,19 @@ router.put("/updatemovie/:id", (req, res) => {
     });
 });
 
+router.get("/activemovies", (req, res) => {
+  Movie.aggregate([
+    {
+      $match: {
+        status: {
+          $eq: "Active",
+        },
+      },
+    },
+  ]).then((data) => {
+    console.log(data);
+    res.send(data);
+  });
+});
+
 module.exports = router;
